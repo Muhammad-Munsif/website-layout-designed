@@ -14,3 +14,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }, { threshold: 0.2 });
     elements.forEach(el => observer.observe(el));
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    function revealSections() {
+        let sections = document.querySelectorAll(".hero, .about, .features, .contact");
+        sections.forEach(section => {
+            let position = section.getBoundingClientRect().top;
+            let screenPosition = window.innerHeight / 1.3;
+            if (position < screenPosition) {
+                section.classList.add("show");
+            }
+        });
+    }
+    
+    window.addEventListener("scroll", revealSections);
+    revealSections(); // Trigger on page load
+});
