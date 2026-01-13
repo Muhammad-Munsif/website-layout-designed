@@ -1,4 +1,4 @@
-<script>
+
         // Theme Toggle Functionality
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
@@ -155,4 +155,4 @@
                 this.style.zIndex = '1';
             });
         });
-    </script>
+    
