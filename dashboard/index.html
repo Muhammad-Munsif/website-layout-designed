@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,9 +22,9 @@
             --danger-color: #ef4444;
             --radius-md: 8px;
             --radius-lg: 12px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -53,7 +54,7 @@
 
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-header h2 {
@@ -73,7 +74,7 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             transition: all 0.3s;
             border-left: 3px solid transparent;
@@ -81,7 +82,7 @@
 
         .menu-item:hover,
         .menu-item.active {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
             border-left-color: var(--primary-color);
         }
@@ -358,13 +359,16 @@
             .sidebar {
                 width: 70px;
             }
+
             .sidebar-header h2,
             .menu-item span {
                 display: none;
             }
+
             .main-content {
                 margin-left: 70px;
             }
+
             .form-row {
                 grid-template-columns: 1fr;
             }
@@ -388,10 +392,13 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Login Page -->
     <div id="loginPage" class="login-container">
@@ -431,7 +438,8 @@
                 <a href="#" class="menu-item" data-page="contacts">
                     <i class="fas fa-envelope"></i>
                     <span>Contacts</span>
-                    <span id="contactCount" class="badge" style="margin-left: auto; background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">0</span>
+                    <span id="contactCount" class="badge"
+                        style="margin-left: auto; background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">0</span>
                 </a>
                 <a href="#" class="menu-item" data-page="projects">
                     <i class="fas fa-briefcase"></i>
@@ -465,7 +473,8 @@
                         <div class="user-avatar" id="userInitials">A</div>
                         <div>
                             <div id="userEmail">admin@nexus.com</div>
-                            <div style="font-size: 0.85rem; color: var(--text-secondary);" id="userRole">Administrator</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);" id="userRole">Administrator
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -538,7 +547,8 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2>Contact Messages</h2>
                     <div>
-                        <input type="text" id="searchContacts" class="form-control" placeholder="Search messages..." style="width: 300px; display: inline-block;">
+                        <input type="text" id="searchContacts" class="form-control" placeholder="Search messages..."
+                            style="width: 300px; display: inline-block;">
                     </div>
                 </div>
                 <div class="table-container">
@@ -602,14 +612,14 @@
         // Login Form Submission
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            
+
             try {
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
-                
+
                 const response = await fetch(`${API_BASE_URL}/auth/login`, {
                     method: 'POST',
                     headers: {
@@ -620,14 +630,14 @@
                         password: document.getElementById('loginPassword').value
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     authToken = data.token;
                     localStorage.setItem('authToken', authToken);
                     localStorage.setItem('userData', JSON.stringify(data.user));
-                    
+
                     showNotification('Login successful!', 'success');
                     showDashboard(data.user);
                 } else {
@@ -650,9 +660,9 @@
                         'x-auth-token': authToken
                     }
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     showDashboard(data.user);
                 } else {
@@ -670,12 +680,12 @@
         function showDashboard(user) {
             loginPage.style.display = 'none';
             dashboard.style.display = 'flex';
-            
+
             adminName.textContent = user.username;
             userEmail.textContent = user.email;
             userRole.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
             userInitials.textContent = user.username.charAt(0).toUpperCase();
-            
+
             loadDashboardStats();
             loadRecentMessages();
             setupNavigation();
@@ -690,12 +700,12 @@
                         'x-auth-token': authToken
                     }
                 });
-                
+
                 const contactsData = await contactsRes.json();
-                
+
                 if (contactsData.success) {
                     document.getElementById('totalContacts').textContent = contactsData.pagination?.total || 0;
-                    
+
                     const newMessages = contactsData.data.filter(c => c.status === 'new').length;
                     document.getElementById('newMessages').textContent = newMessages;
                     contactCount.textContent = newMessages;
@@ -713,9 +723,9 @@
                         'x-auth-token': authToken
                     }
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     const tbody = document.querySelector('#recentMessagesTable tbody');
                     tbody.innerHTML = data.data.map(contact => `
@@ -741,30 +751,30 @@
         // Navigation Setup
         function setupNavigation() {
             const menuItems = document.querySelectorAll('.menu-item');
-            
+
             menuItems.forEach(item => {
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
-                    
+
                     // Remove active class from all items
                     menuItems.forEach(i => i.classList.remove('active'));
-                    
+
                     // Add active class to clicked item
                     item.classList.add('active');
-                    
+
                     // Get page to show
                     const page = item.getAttribute('data-page');
-                    
+
                     // Hide all pages
                     document.querySelectorAll('.page-content').forEach(p => {
                         p.style.display = 'none';
                     });
-                    
+
                     // Show selected page
                     document.getElementById(`${page}Page`).style.display = 'block';
-                    
+
                     // Load page data
-                    switch(page) {
+                    switch (page) {
                         case 'contacts':
                             loadContacts();
                             break;
@@ -777,7 +787,7 @@
                     }
                 });
             });
-            
+
             // Logout
             logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -795,9 +805,9 @@
                         'x-auth-token': authToken
                     }
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     const tbody = document.querySelector('#contactsTable tbody');
                     tbody.innerHTML = data.data.map(contact => `
@@ -840,9 +850,9 @@
                             'x-auth-token': authToken
                         }
                     });
-                    
+
                     const data = await response.json();
-                    
+
                     if (data.success) {
                         showNotification('Contact deleted successfully', 'success');
                         loadContacts();
@@ -867,16 +877,16 @@
                 <span>${message}</span>
                 <button class="notification-close"><i class="fas fa-times"></i></button>
             `;
-            
+
             document.body.appendChild(notification);
-            
+
             setTimeout(() => notification.classList.add('show'), 10);
-            
+
             notification.querySelector('.notification-close').addEventListener('click', () => {
                 notification.classList.remove('show');
                 setTimeout(() => notification.remove(), 300);
             });
-            
+
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.classList.remove('show');
@@ -935,4 +945,5 @@
         document.head.appendChild(notificationStyles);
     </script>
 </body>
+
 </html>
